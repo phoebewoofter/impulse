@@ -32,7 +32,7 @@ function App() {
           client_id: "4fa86431d95c4f78b111aacbe5760ea1",
           grant_type: "authorization_code",
           code: code,
-          redirect_uri: "https://teal-speculoos-77ccce.netlify.app/",
+          redirect_uri: "https://teal-speculoos-73ccce.netlify.app/",
           code_verifier: storedVerifier,
         }),
       })
