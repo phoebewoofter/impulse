@@ -3,7 +3,7 @@ import './Login.css';
 
 function Login() {
   const CLIENT_ID = "4fa86431d95c4f78b111aacbe5760ea1";
-  const REDIRECT_URI = "https://flourishing-halva-064ebe.netlify.app/";
+  const REDIRECT_URI = "https://teal-speculoos-73ccce.netlify.app/";
   const AUTH_ENDPOINT = "https://accounts.spotify.com/authorize";
   const RESPONSE_TYPE = "token";
 
