@@ -1,0 +1,44 @@
+/* src/components/Recs.css */
+.recs-accordion {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    background: #fafafa;
+    border-top: 1px solid #ddd;
+    transition: height 0.3s ease;
+    overflow: hidden;
+  }
+  
+  .recs-accordion.collapsed {
+    height: 40px;
+  }
+  
+  .recs-accordion.expanded {
+    height: 300px;
+  }
+  
+  .accordion-header {
+    padding: 10px;
+    cursor: pointer;
+    text-align: center;
+    background: #eee;
+  }
+  
+  .accordion-content {
+    padding: 10px;
+    overflow-y: auto;
+  }
+  
+  .rec-track {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+  
+  .rec-track .album-cover {
+    width: 50px;
+    height: 50px;
+    margin-right: 10px;
+    border-radius: 4px;
+  }
+  

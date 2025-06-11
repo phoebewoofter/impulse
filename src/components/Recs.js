@@ -1,59 +1,60 @@
-import React, { useState, useEffect } from 'react';
+// src/components/Recs.js
+import React, { useState, useEffect } from "react";
+import "./Recs.css";
 
-function Recs({ token }) {
+const Recs = ({ token }) => {
   const [recommendedTracks, setRecommendedTracks] = useState([]);
+  const [expanded, setExpanded] = useState(false);
 
   useEffect(() => {
-    // Example: Fetch recommendations based on a seed track.
-    const fetchRecommendations = async () => {
-      try {
-        const seedTracks = '4uLU6hMCjMI75M1A2tKUQC'; // Replace with dynamic seed ids if desired.
-        const endpoint = `https://api.spotify.com/v1/recommendations?seed_tracks=${seedTracks}&limit=10`;
-        const response = await fetch(endpoint, {
+    const fetchRecs = async () => {
+      // Fetch recommendations. Here we use a fixed seed track for demonstration.
+      const response = await fetch(
+        `https://api.spotify.com/v1/recommendations?seed_tracks=4fa86431d95c4f78b111aacbe5760ea1&limit=10`,
+        {
           headers: {
             Authorization: `Bearer ${token}`,
           },
-        });
-        const data = await response.json();
-        if (data.tracks) {
-          const recs = data.tracks.map(track => ({
-            id: track.id,
-            name: track.name,
-            album: track.album.name,
-            artist: track.artists.map(artist => artist.name).join(", "),
-            albumArt: track.album.images[0]?.url,
-            spotifyLink: track.external_urls.spotify,
-          }));
-          setRecommendedTracks(recs);
         }
-      } catch (error) {
-        console.error("Error fetching recommendations:", error);
+      );
+      const data = await response.json();
+      if (data.tracks) {
+        const recs = data.tracks.map((track) => ({
+          id: track.id,
+          name: track.name,
+          album: track.album.name,
+          artist: track.artists.map((a) => a.name).join(", "),
+          albumArt: track.album.images[0] ? track.album.images[0].url : "",
+          spotifyLink: track.external_urls.spotify,
+        }));
+        setRecommendedTracks(recs);
       }
     };
-
-    fetchRecommendations();
+    fetchRecs();
   }, [token]);
 
   return (
-    <div className="accordion recs">
-      <h3>Discover new songs and artists</h3>
-      <div className="recs-content">
-        {recommendedTracks.length > 0 ? (
-          recommendedTracks.map(track => (
+    <div className={`recs-accordion ${expanded ? "expanded" : "collapsed"}`}>
+      <div className="accordion-header" onClick={() => setExpanded(!expanded)}>
+        <h3>Discover new songs and artists</h3>
+      </div>
+      {expanded && (
+        <div className="accordion-content">
+          {recommendedTracks.map((track) => (
             <div key={track.id} className="rec-track">
-              <img src={track.albumArt} alt={track.album} className="album-art"/>
+              <img src={track.albumArt} alt={track.name} className="album-cover" />
               <div>
-                <strong>{track.name}</strong>
+                <p>
+                  <strong>{track.name}</strong>
+                </p>
                 <p>{track.artist}</p>
               </div>
             </div>
-          ))
-        ) : (
-          <p>No recommendations available</p>
-        )}
-      </div>
+          ))}
+        </div>
+      )}
     </div>
   );
-}
+};
 
 export default Recs;

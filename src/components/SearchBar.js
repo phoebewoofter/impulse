@@ -1,17 +1,19 @@
-import React from 'react';
+// src/components/SearchBar.js
+import React from "react";
+import "./SearchBar.css";
 
-function SearchBar({ userInput, setUserInput, handleSubmit }) {
+const SearchBar = ({ userInput, setUserInput, handleSubmit }) => {
   return (
-    <form onSubmit={handleSubmit} className="search-bar">
-      <input 
+    <form className="search-bar" onSubmit={handleSubmit}>
+      <input
         type="text"
+        placeholder="Search for tracks"
         value={userInput}
         onChange={(e) => setUserInput(e.target.value)}
-        placeholder="Search for a track..."
       />
       <button type="submit">Search</button>
     </form>
   );
-}
+};
 
 export default SearchBar;

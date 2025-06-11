@@ -1,0 +1,6 @@
+/* src/components/Tracklist.css */
+.tracklist {
+    display: flex;
+    flex-direction: column;
+  }
+  

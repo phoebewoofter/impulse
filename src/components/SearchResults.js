@@ -1,17 +1,20 @@
-import React from 'react';
-import Tracklist from './Tracklist';
+// src/components/SearchResults.js
+import React from "react";
+import Tracklist from "./Tracklist";
+import "./SearchResults.css";
 
-function SearchResults({ results, handleToggleTrackInPlaylist, isTrackInPlaylist }) {
+const SearchResults = ({ results, onToggleTrack, isTrackInPlaylist }) => {
   return (
     <div className="search-results">
       <h2>Results</h2>
-      <Tracklist 
+      <Tracklist
         tracks={results}
-        handleToggleTrackInPlaylist={handleToggleTrackInPlaylist}
+        onToggleTrack={onToggleTrack}
         isTrackInPlaylist={isTrackInPlaylist}
       />
     </div>
   );
-}
+};
 
 export default SearchResults;
+

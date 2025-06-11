@@ -1,19 +1,23 @@
-import React from 'react';
+// src/components/Track.js
+import React from "react";
+import "./Track.css";
 
-function Track({ track, handleToggleTrackInPlaylist, isInPlaylist }) {
+const Track = ({ track, onToggleTrack, isInPlaylist }) => {
   return (
     <div className="track">
-      <img src={track.albumArt} alt={`Album cover for ${track.album}`} className="album-art"/>
-      <div className="track-details">
-        <strong>{track.name}</strong>
-        <p>{track.album}</p>
-        <p>{track.artist}</p>
+      <img src={track.albumArt} alt={track.name} className="album-cover" />
+      <div className="track-info">
+        <span className="track-name">
+          <strong>{track.name}</strong>
+        </span>
+        <span className="track-album">{track.album}</span>
+        <span className="track-artist">{track.artist}</span>
       </div>
-      <button onClick={() => handleToggleTrackInPlaylist(track)}>
-        {isInPlaylist ? 'Remove' : 'Add'}
+      <button onClick={() => onToggleTrack(track)}>
+        {isInPlaylist ? "Remove" : "Add"}
       </button>
     </div>
   );
-}
+};
 
 export default Track;

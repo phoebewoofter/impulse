@@ -1,0 +1,12 @@
+/* src/components/Playlist.css */
+.playlist {
+    margin: 20px;
+  }
+  
+  .playlist input {
+    width: 80%;
+    padding: 8px;
+    margin-bottom: 10px;
+    font-size: 1em;
+  }
+  

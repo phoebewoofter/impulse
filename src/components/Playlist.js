@@ -1,27 +1,38 @@
-import React from 'react';
-import Tracklist from './Tracklist';
+// src/components/Playlist.js
+import React from "react";
+import Tracklist from "./Tracklist";
+import "./Playlist.css";
 
-function Playlist({ playlist, playlistName, handlePlaylistNameChange, handleToggleTrackInPlaylist, handleCreatePlaylist }) {
+const Playlist = ({
+  playlist,
+  playlistName,
+  handlePlaylistNameChange,
+  handleCreatePlaylist,
+  onToggleTrack,
+  isTrackInPlaylist,
+}) => {
   return (
     <div className="playlist">
       <h2>Your Playlist</h2>
-      <input 
+      <input
         type="text"
+        placeholder="Playlist Name"
         value={playlistName}
         onChange={handlePlaylistNameChange}
-        placeholder="Enter playlist name..."
       />
-      <Tracklist 
+      <Tracklist
         tracks={playlist}
-        // Since every track in the playlist is already added, we force the button to show "Remove"
-        handleToggleTrackInPlaylist={handleToggleTrackInPlaylist}
-        isTrackInPlaylist={() => true}
+        onToggleTrack={onToggleTrack}
+        isTrackInPlaylist={isTrackInPlaylist}
       />
-      <button onClick={handleCreatePlaylist} disabled={!playlistName || playlist.length === 0}>
-        Upload Playlist to Spotify
-      </button>
+      {playlistName && playlist.length > 0 && (
+        <button onClick={handleCreatePlaylist}>
+          Upload Playlist to Spotify
+        </button>
+      )}
     </div>
   );
-}
+};
 
 export default Playlist;
+
