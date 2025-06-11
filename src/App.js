@@ -153,6 +153,10 @@ function App() {
   }
 
   return (
+    <>
+        {!token ? (
+        <Login />
+        ) :
     <div className="App">
       <header>
         <h1>impulse</h1>
@@ -176,7 +180,10 @@ function App() {
       />
       <Recs token={token} />
     </div>
+    }
+    </>
   );
+
 }
 
 export default App;
