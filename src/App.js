@@ -52,7 +52,7 @@ function App() {
     localStorage.setItem("code_verifier", verifier);
     const challenge = await getCodeChallenge(verifier);
     const params = new URLSearchParams({
-      client_id: "4fa86431d95c4f78b111aacbe5760ea1",
+      client_id: "56de6914b0ff425b91c22549a95629e5",
       response_type: "code",
       redirect_uri: "https://teal-speculoos-77ccce.netlify.app/",
       code_challenge_method: "S256",
