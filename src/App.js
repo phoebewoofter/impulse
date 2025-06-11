@@ -13,24 +13,33 @@ function App() {
   const [playlistName, setPlaylistName] = useState("");
   const [playlist, setPlaylist] = useState([]);
   const [token, setToken] = useState("");
+  const [userData, setUserData] = useState(null);
 
-  // Retrieves access token from Spotify (assuming the token is passed in the URL hash)
-  const getAccessToken = () => {
-    const hash = window.location.hash;
-    let tokenFromUrl = null;
-    if (hash) {
-      const params = new URLSearchParams(hash.substring(1));
-      tokenFromUrl = params.get("access_token");
-    }
-    if (tokenFromUrl) {
-      setToken(tokenFromUrl);
-      window.history.pushState("", document.title, window.location.pathname);
-    }
-  };
-
+  // On mount, load the token from localStorage
   useEffect(() => {
-    getAccessToken();
+    const storedToken = localStorage.getItem('access_token');
+    if (storedToken) {
+      setToken(storedToken);
+    }
   }, []);
+
+  // When a token is set, fetch the user's Spotify profile data.
+  useEffect(() => {
+    if (token) {
+      fetch("https://api.spotify.com/v1/me", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          setUserData(data);
+        })
+        .catch((error) => {
+          console.error("Error fetching user data:", error);
+        });
+    }
+  }, [token]);
 
   // Search Spotify for tracks based on user input
   const handleSearch = async () => {
@@ -45,12 +54,12 @@ function App() {
       });
       const data = await response.json();
       if (data.tracks) {
-        // Map through the tracks and extract needed fields
-        const tracks = data.tracks.items.map(track => ({
+        // Map through the tracks and extract the needed fields
+        const tracks = data.tracks.items.map((track) => ({
           id: track.id,
           name: track.name,
           album: track.album.name,
-          artist: track.artists.map(artist => artist.name).join(", "),
+          artist: track.artists.map((artist) => artist.name).join(", "),
           albumArt: track.album.images[0]?.url,
           spotifyLink: track.external_urls.spotify,
         }));
@@ -74,7 +83,7 @@ function App() {
 
   // Checks if the track is already in the playlist
   const isTrackInPlaylist = (track) => {
-    return playlist.some(t => t.id === track.id);
+    return playlist.some((t) => t.id === track.id);
   };
 
   // Adds a track to the playlist if it isn’t already there
@@ -86,7 +95,7 @@ function App() {
 
   // Removes a track from the playlist
   const handleRemoveFromPlaylist = (track) => {
-    setPlaylist(playlist.filter(t => t.id !== track.id));
+    setPlaylist(playlist.filter((t) => t.id !== track.id));
   };
 
   // Toggles the track in the playlist
@@ -128,7 +137,7 @@ function App() {
       const playlistData = await createResponse.json();
 
       // Prepare track URIs for adding to the playlist
-      const trackUris = playlist.map(track => `spotify:track:${track.id}`);
+      const trackUris = playlist.map((track) => `spotify:track:${track.id}`);
       await fetch(`https://api.spotify.com/v1/playlists/${playlistData.id}/tracks`, {
         method: 'POST',
         headers: {
@@ -147,20 +156,35 @@ function App() {
     }
   };
 
-  // Render the login screen if no access token is present
+  // Logout function clears localStorage and resets state
+  const logoutClick = () => {
+    localStorage.clear();
+    setToken("");
+    setUserData(null);
+    window.location.reload();
+  };
+
+  // If no access token is available, render the Login component.
   if (!token) {
     return <Login />;
   }
 
   return (
-    <>
-        {!token ? (
-        <Login />
-        ) :
     <div className="App">
       <header>
         <h1>impulse</h1>
       </header>
+      <div style={{ textAlign: "center", marginTop: "50px" }}>
+        {userData ? (
+          <>
+            <h2>Welcome, {userData.display_name}!</h2>
+            <p>User ID: {userData.id}</p>
+            <button onClick={logoutClick}>Logout</button>
+          </>
+        ) : (
+          <p>Loading your Spotify profile...</p>
+        )}
+      </div>
       <SearchBar 
         userInput={userInput}
         setUserInput={setUserInput}
@@ -180,11 +204,7 @@ function App() {
       />
       <Recs token={token} />
     </div>
-    }
-    </>
   );
-
 }
 
 export default App;
-
