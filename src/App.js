@@ -29,7 +29,7 @@ function App() {
           "Content-Type": "application/x-www-form-urlencoded",
         },
         body: new URLSearchParams({
-          client_id: "4fa86431d95c4f78b111aacbe5760ea1",
+          client_id: "56de6914b0ff425b91c22549a95629e5",
           grant_type: "authorization_code",
           code: code,
           redirect_uri: "https://teal-speculoos-73ccce.netlify.app/",
