@@ -54,7 +54,7 @@ function App() {
     const params = new URLSearchParams({
       client_id: "4fa86431d95c4f78b111aacbe5760ea1",
       response_type: "code",
-      redirect_uri: "https://teal-speculoos-77ccce.netlify.app",
+      redirect_uri: "https://teal-speculoos-77ccce.netlify.app/",
       code_challenge_method: "S256",
       code_challenge: challenge,
     });
