@@ -5,7 +5,7 @@ function Login() {
   const CLIENT_ID = "4fa86431d95c4f78b111aacbe5760ea1";
   const REDIRECT_URI = "https://teal-speculoos-73ccce.netlify.app/";
   const AUTH_ENDPOINT = "https://accounts.spotify.com/authorize";
-  const RESPONSE_TYPE = "token";
+  const RESPONSE_TYPE = "code";
 
   const [token, setToken] = useState("");
   const [userId, setUserId] = useState("");
@@ -68,14 +68,14 @@ function Login() {
             <div className="cable"></div>
           </div>
           <div className="cassette">
-            <a
-              className="login-button"
-              href={`${AUTH_ENDPOINT}?client_id=${CLIENT_ID}&redirect_uri=${encodeURIComponent(
+          <a
+            className="login-button"
+            href={`${AUTH_ENDPOINT}?client_id=${CLIENT_ID}&redirect_uri=${encodeURIComponent(
                 REDIRECT_URI
-              )}&response_type=${RESPONSE_TYPE}&show_dialog=true`}
+            )}&response_type=code&show_dialog=true`}
             >
-              Log in
-            </a>
+            Log in
+        </a>
           </div>
         </div>
       </div>
